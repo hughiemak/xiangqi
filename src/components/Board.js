@@ -3,18 +3,28 @@ import "../index.css";
 import Square from "./Square.js";
 
 export default class Board extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    // console.log("this.props.squares: " + this.props.squares);
   }
-
   renderSquare(key, x, y) {
+    console.log("x: " + x + " y: " + y);
+    console.log(
+      "this.props.squares[y][x]: " + JSON.stringify(this.props.squares[y][x])
+    );
     return (
-      <Square key={key} x={x} y={y} onClick={coord => this.onClick(coord)} />
+      <Square
+        piece={this.props.squares[y][x]}
+        key={key}
+        x={x}
+        y={y}
+        onClick={sq => this.onClick(sq)}
+      />
     );
   }
 
-  onClick(coord) {
-    this.props.onClick(coord);
+  onClick(sq) {
+    this.props.onClick(sq);
   }
 
   render() {
