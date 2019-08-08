@@ -14,7 +14,15 @@ export default class Sqaure extends React.Component {
     //   "ChessType.getChessType().King: " + ChessType.getChessType().King
     // );
 
-    this.state = { piece: piece, backgroundColor: "#f9ead6" };
+    const coord = { x: this.props.x, y: this.props.y };
+
+    this.state = {
+      isSelected: false,
+      piece: piece,
+      backgroundColor: "#f9ead6",
+      borderColor: "white",
+      coord: coord
+    };
 
     // switch (piece) {
     //   case ChessType.getChessType().King:
@@ -25,13 +33,23 @@ export default class Sqaure extends React.Component {
     // }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.piece !== prevProps.piece) {
+      this.setState({ piece: this.props.piece });
+    }
+  }
+
   render() {
     // console.log("this props: " + this.props);
     return (
       <button
         className="square"
         onClick={this.onClick}
-        style={{ backgroundColor: this.state.backgroundColor }}
+        style={{
+          backgroundColor: this.state.backgroundColor,
+          borderColor: this.state.isSelected ? "black" : "white"
+        }}
+        // onFocus={this.onFocus}
       >
         {/* {this.state.hasPiece ? <Piece /> : null} */}
         {/* {this.state.piece} */}
@@ -40,13 +58,13 @@ export default class Sqaure extends React.Component {
     );
   }
 
-  highlight() {
-    this.setState({ backgroundColor: "#ffba5e" });
-  }
+  // highlight() {
+  //   this.setState({ backgroundColor: "#ffba5e" });
+  // }
 
-  unhighlight() {
-    this.setState({ backgroundColor: "#f9ead6" });
-  }
+  // unhighlight() {
+  //   this.setState({ backgroundColor: "#f9ead6" });
+  // }
 
   onClick = () => {
     const x = this.props.x;
@@ -69,11 +87,34 @@ export default class Sqaure extends React.Component {
     this.setState({ piece: <King /> }, fn);
   }
 
-  hasPiece() {
+  hasPiece = () => {
     if (this.state.piece != null) {
       return true;
     } else {
       return false;
     }
-  }
+  };
+
+  onFocus = () => {
+    console.log("this.hasPiece(): " + this.hasPiece());
+    if (this.hasPiece()) {
+      this.setState({ borderColor: "black" });
+    }
+  };
+
+  select = () => {
+    this.setState({ isSelected: true });
+  };
+
+  unselect = () => {
+    this.setState({ isSelected: false });
+  };
+
+  // highlight() {
+  //   this.setState({ borderColor: "black" });
+  // }
+
+  // unhighlight() {
+  //   this.setState({ borderColor: "white" });
+  // }
 }

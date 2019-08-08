@@ -6,19 +6,34 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props);
     // console.log("this.props.squares: " + this.props.squares);
+    this.state = {
+      squares: this.props.squares
+    };
   }
+
+  componentDidUpdate(prevProps) {
+    // console.log("componentDidUpdate");
+    // console.log("this.props.squares: " + this.props.squares);
+    // console.log("prevProps.squares: " + prevProps.squares);
+    if (this.props.squares !== prevProps.squares) {
+      // console.log("Board setState");
+      this.setState({ squares: this.props.squares });
+    }
+  }
+
   renderSquare(key, x, y) {
-    console.log("x: " + x + " y: " + y);
-    console.log(
-      "this.props.squares[y][x]: " + JSON.stringify(this.props.squares[y][x])
-    );
+    // console.log("x: " + x + " y: " + y);
+    // console.log(
+    //   "this.props.squares[y][x]: " + JSON.stringify(this.props.squares[y][x])
+    // );
     return (
       <Square
-        piece={this.props.squares[y][x]}
+        piece={this.state.squares[y][x]}
         key={key}
         x={x}
         y={y}
         onClick={sq => this.onClick(sq)}
+        setClick={click => (this.clickChild = click)}
       />
     );
   }
@@ -28,6 +43,7 @@ export default class Board extends React.Component {
   }
 
   render() {
+    // console.log("Board render(), this.state.squares: " + this.state.squares);
     const board = [];
     for (let y = 9; y >= 0; y--) {
       const squareRows = [];

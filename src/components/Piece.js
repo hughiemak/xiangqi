@@ -18,7 +18,7 @@ export default class Piece extends React.Component {
       <div
         className="piece"
         style={{ backgroundColor: this.state.backgroundColor }}
-        onClick={this.highlight}
+        // onClick={this.highlight}
       >
         {this.props.text}
       </div>

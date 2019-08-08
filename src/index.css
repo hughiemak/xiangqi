@@ -30,6 +30,8 @@ body {
 
 .square:focus {
   outline: none;
+  /* border-color: black;
+  background-color: red; */
 }
 
 .game {
