@@ -2,7 +2,7 @@ import React from "react";
 import "../index.css";
 import Piece from "./Piece.js";
 import King from "./King.js";
-import getChessType from "../helpers/getChessType";
+// import getChessType from "../helpers/getChessType";
 import getComponentByChessType from "../helpers/getComponentByChessType";
 
 export default class Sqaure extends React.Component {
@@ -21,7 +21,8 @@ export default class Sqaure extends React.Component {
       piece: piece,
       backgroundColor: "#f9ead6",
       borderColor: "white",
-      coord: coord
+      coord: coord,
+      highlight: this.props.highlight
     };
 
     // switch (piece) {
@@ -36,6 +37,10 @@ export default class Sqaure extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.piece !== prevProps.piece) {
       this.setState({ piece: this.props.piece });
+    }
+
+    if (this.props.highlight !== prevProps.highlight) {
+      this.setState({ highlight: this.props.highlight });
     }
   }
 
@@ -53,7 +58,13 @@ export default class Sqaure extends React.Component {
       >
         {/* {this.state.hasPiece ? <Piece /> : null} */}
         {/* {this.state.piece} */}
-        {getComponentByChessType(this.state.piece)}
+        <div
+          className={
+            this.state.highlight ? "highlight-piece" : "unhighlight-square"
+          }
+        >
+          {getComponentByChessType(this.state.piece)}
+        </div>
       </button>
     );
   }

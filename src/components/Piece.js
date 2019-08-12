@@ -10,26 +10,36 @@ export default class Piece extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { backgroundColor: this.normalBGColor };
+    this.state = { backgroundColor: this.normalBGColor, highlight: false };
   }
 
   render() {
     return (
       <div
-        className="piece"
-        style={{ backgroundColor: this.state.backgroundColor }}
-        // onClick={this.highlight}
+        className={
+          this.state.highlight ? "highlight-piece" : "unhighlight-square"
+        }
       >
-        {this.props.text}
+        <div
+          className="piece"
+          style={{
+            backgroundColor: this.state.backgroundColor,
+            borderColor: this.props.player,
+            color: this.props.player
+          }}
+          // onClick={this.highlight}
+        >
+          {this.props.text}
+        </div>
       </div>
     );
   }
 
   highlight = () => {
-    this.setState({ backgroundColor: this.highlightedBGColor });
+    this.setState({ highlight: true });
   };
 
   unhighlight = () => {
-    this.setState({ backgroundColor: this.normalBGColor });
+    this.setState({ highlight: false });
   };
 }

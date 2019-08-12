@@ -2,6 +2,7 @@ import React from "react";
 import "../index.css";
 import Piece from "./Piece.js";
 import getChessType from "../helpers/getChessType";
+import getPlayers from "../helpers/getPlayers";
 
 export default class King extends Piece {
   constructor(props) {
@@ -9,7 +10,12 @@ export default class King extends Piece {
   }
 
   render() {
-    return <Piece text="帥" />;
+    return (
+      <Piece
+        text={this.props.player === getPlayers().Red ? "帥" : "將"}
+        player={this.props.player}
+      />
+    );
   }
 
   isMovePossible(src, dest) {
