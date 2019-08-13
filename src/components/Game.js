@@ -19,8 +19,22 @@ export default class Game extends React.Component {
       selectedSquare: null, //a square
       unselect: null, //a coordinate
       select: null, //a coordinate
-      turn: getPlayers().Black
+      turn: getPlayers().Red
     };
+  }
+
+  toggleTurn() {
+    const turn = this.state.turn;
+
+    if (turn === getPlayers().Red) {
+      this.setState({
+        turn: getPlayers().Black
+      });
+    } else {
+      this.setState({
+        turn: getPlayers().Red
+      });
+    }
   }
 
   isSelectingChess() {
@@ -120,16 +134,15 @@ export default class Game extends React.Component {
         });
       } else {
         const src = this.state.select;
-        const srcChessType = getPieceByCoord(src, squares).chessType;
+        const srcPeice = getPieceByCoord(src, squares);
+        const srcChessType = srcPeice.chessType;
 
-        // const srcChessType = this.state.selectedSquare.state.piece;
-        // const src = this.state.selectedSquare.state.coord;
         const dest = sq.state.coord;
 
         const isMovePossible = getMovePossibleByChessType(
           src,
           dest,
-          srcChessType,
+          srcPeice,
           squares
         );
 
@@ -137,9 +150,37 @@ export default class Game extends React.Component {
           if (this.squreHavePiece(sq)) {
             //G06: eating opponent chess
             console.log("G06: eating opponent chess");
+            const outcome = getMoveOutcome(srcPeice, src, dest, squares);
+
+            const destPiece = getPieceByCoord(dest, squares);
+            if (destPiece != null) {
+              // TODO: store fallen piece
+            }
+
+            this.setState(
+              {
+                squares: outcome,
+                select: null
+              },
+              function() {
+                this.setState({ isSelectingChess: true });
+                this.toggleTurn();
+              }
+            );
           } else {
             //G05: moving chess to empty square
             console.log("G05: moving chess to empty square");
+            const outcome = getMoveOutcome(srcPeice, src, dest, squares);
+            this.setState(
+              {
+                squares: outcome,
+                select: null
+              },
+              function() {
+                this.setState({ isSelectingChess: true });
+                this.toggleTurn();
+              }
+            );
           }
         } else {
           //G08: cannot make such move
@@ -206,7 +247,7 @@ export default class Game extends React.Component {
     return (
       <div>
         {/* Hello */}
-        <King />
+        {/* <King /> */}
         <div className="game">
           <div className="game-board">
             <Board

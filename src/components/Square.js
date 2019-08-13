@@ -4,12 +4,13 @@ import Piece from "./Piece.js";
 import King from "./King.js";
 // import getChessType from "../helpers/getChessType";
 import getComponentByChessType from "../helpers/getComponentByChessType";
+import getPlayers from "../helpers/getPlayers";
 
 export default class Sqaure extends React.Component {
   constructor(props) {
     super(props);
     const piece = this.props.piece;
-    // console.log("Square this.props.piece: " + this.props.piece);
+    console.log("Square this.props.piece: " + this.props.piece);
     // console.log(
     //   "ChessType.getChessType().King: " + ChessType.getChessType().King
     // );
@@ -60,7 +61,11 @@ export default class Sqaure extends React.Component {
         {/* {this.state.piece} */}
         <div
           className={
-            this.state.highlight ? "highlight-piece" : "unhighlight-square"
+            this.state.highlight
+              ? this.state.piece.player === getPlayers().Red
+                ? "highlight-piece-in-red"
+                : "highlight-piece"
+              : "unhighlight-square"
           }
         >
           {getComponentByChessType(this.state.piece)}
