@@ -4,6 +4,7 @@ import Advisor from "../components/Advisor";
 import getChessType from "../helpers/getChessType";
 import Elephant from "../components/Elephant";
 import Soldier from "../components/Soldier";
+import Chariot from "../components/Chariot";
 
 export default function getChessComponent(piece) {
   // console.log("piece: " + piece);
@@ -21,6 +22,8 @@ export default function getChessComponent(piece) {
         return <Advisor player={player} />;
       case getChessType().Elephant:
         return <Elephant player={player} />;
+      case getChessType().Chariot:
+        return <Chariot player={player} />;
       case getChessType().Soldier:
         return <Soldier player={player} />;
       default:
