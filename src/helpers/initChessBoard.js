@@ -36,8 +36,26 @@ export default function initChessBoard() {
   squares[9][6] = getChess(getChessType().Elephant, getPlayers().Black);
   squares[9][2] = getChess(getChessType().Elephant, getPlayers().Black);
 
+  // Cannons
+  squares[2][1] = getChess(getChessType().Cannon, getPlayers().Red);
+  squares[2][7] = getChess(getChessType().Cannon, getPlayers().Red);
+
+  squares[7][1] = getChess(getChessType().Cannon, getPlayers().Black);
+  squares[7][7] = getChess(getChessType().Cannon, getPlayers().Black);
+
+  // Horses
+  squares[0][1] = getChess(getChessType().Horse, getPlayers().Red);
+  squares[0][7] = getChess(getChessType().Horse, getPlayers().Red);
+
+  squares[9][1] = getChess(getChessType().Horse, getPlayers().Black);
+  squares[9][7] = getChess(getChessType().Horse, getPlayers().Black);
+
   // Chariots
   squares[0][0] = getChess(getChessType().Chariot, getPlayers().Red);
+  squares[0][8] = getChess(getChessType().Chariot, getPlayers().Red);
+
+  squares[9][0] = getChess(getChessType().Chariot, getPlayers().Black);
+  squares[9][8] = getChess(getChessType().Chariot, getPlayers().Black);
 
   // Soldiers
   squares[3][0] = getChess(getChessType().Soldier, getPlayers().Red);

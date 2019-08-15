@@ -9,6 +9,7 @@ import getPieceByCoord from "../helpers/getPieceByCoord";
 import getMoveOutcome from "../helpers/getMoveOutcome";
 import { thisTypeAnnotation } from "@babel/types";
 import getPlayers from "../helpers/getPlayers";
+import DisplayBoard from "./ui/Board";
 
 export default class Game extends React.Component {
   constructor() {
@@ -246,9 +247,31 @@ export default class Game extends React.Component {
     // console.log("this.state.squares: " + this.state.squares);
     return (
       <div>
-        {/* Hello */}
-        {/* <King /> */}
+        <div className="chess-container">
+          <div className="board-row">
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+          </div>
+        </div>
         <div className="game">
+          <DisplayBoard />
           <div className="game-board">
             <Board
               squares={this.state.squares}
@@ -256,6 +279,29 @@ export default class Game extends React.Component {
               unselect={this.state.unselect}
               select={this.state.select}
             />
+          </div>
+        </div>
+        <div className="chess-container">
+          <div className="board-row">
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
+            <div className="chess-square" />
           </div>
         </div>
       </div>

@@ -1,3 +1,9 @@
+:root {
+  --line-color: black;
+  --sq-bg-color: white;
+  /* #f9ead6; */
+}
+
 body {
   /* font: 14px "Century Gothic", Futura, sans-serif; */
   margin: 20px;
@@ -12,7 +18,7 @@ body {
 
 .square {
   background: transparent;
-  border: 1px solid white;
+  border: 1px solid none;
   float: left;
   font-size: 24px;
   font-weight: bold;
@@ -24,8 +30,93 @@ body {
   text-align: center;
   width: 32px;
   /* background-color: #4caf50; */
-  background-color: #f9ead6;
+  background-color: none;
   /* #ffdcad */
+}
+
+.display-square {
+  border: 1px solid var(--line-color);
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  /* background-color: black; */
+  float: left;
+}
+
+.display-square-no-vert-border {
+  border-top: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+  border-right: 1px solid transparent;
+  border-left: 1px solid transparent;
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  /* background-color: black; */
+  float: left;
+}
+
+.display-square-no-right-border {
+  border-top: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+  border-right: 1px solid transparent;
+  border-left: 1px solid var(--line-color);
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  /* background-color: black; */
+  float: left;
+}
+
+.display-square-no-left-border {
+  border-top: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+  border-right: 1px solid var(--line-color);
+  border-left: 1px solid transparent;
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  /* background-color: black; */
+  float: left;
+}
+
+.display-square-with-diagonal-top-right {
+  border: 1px solid var(--line-color);
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  float: left;
+  background: linear-gradient(
+    to top right,
+    var(--sq-bg-color) calc(50% - 1px),
+    var(--line-color),
+    var(--sq-bg-color) calc(50% + 1px)
+  );
+}
+
+.display-square-with-diagonal-top-left {
+  border: 1px solid var(--line-color);
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  background-color: var(--sq-bg-color);
+  float: left;
+  background: linear-gradient(
+    to top left,
+    var(--sq-bg-color) calc(50% - 1px),
+    var(--line-color),
+    var(--sq-bg-color) calc(50% + 1px)
+  );
 }
 
 .square:focus {
@@ -35,10 +126,11 @@ body {
 }
 
 .game {
-  margin-top: 2px;
   display: flex;
   flex-direction: row;
-  /* background-color: aquamarine; */
+  position: relative;
+
+  height: 310px;
 }
 
 .piece {
@@ -99,4 +191,42 @@ body {
 .unhighlight-piece {
   width: 30px;
   height: 30px;
+}
+
+.display-board {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 249px;
+  height: 280px;
+  /* background-color: blueviolet; */
+  /* opacity: 0.3; */
+}
+
+.game-board {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.chess-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 280px;
+  height: 60px;
+  /* background-color: yellow; */
+  border: 1px solid var(--line-color);
+  position: relative;
+}
+
+.chess-square {
+  border: 1px solid #999;
+  height: 30px;
+  width: 30px;
+  margin-right: -1px;
+  margin-top: -1px;
+  /* background-color: var(--sq-bg-color); */
+  /* background-color: white; */
+
+  float: left;
 }

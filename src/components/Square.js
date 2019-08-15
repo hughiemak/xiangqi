@@ -20,8 +20,8 @@ export default class Sqaure extends React.Component {
     this.state = {
       isSelected: false,
       piece: piece,
-      backgroundColor: "#f9ead6",
-      borderColor: "white",
+      backgroundColor: "none",
+      borderColor: "yellow",
       coord: coord,
       highlight: this.props.highlight
     };
@@ -53,7 +53,7 @@ export default class Sqaure extends React.Component {
         onClick={this.onClick}
         style={{
           backgroundColor: this.state.backgroundColor,
-          borderColor: this.state.isSelected ? "black" : "white"
+          borderColor: "transparent" //this.state.isSelected ? "black" : "white"
         }}
         // onFocus={this.onFocus}
       >

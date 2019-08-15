@@ -115,6 +115,71 @@ export default function isMovePossible(src, dest, piece, squares) {
 
       break;
 
+    case getChessType().Cannon:
+      if (xDiff === 0 || yDiff === 0) {
+        //moving in straight line
+        const destPiece = squares[dest.y][dest.x];
+        const srcPlayer = piece.player;
+
+        if (hasPieceBetween(src, dest, squares)) {
+          if (destPiece == null) {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          //not has piece between
+          if (destPiece == null) {
+            //dest is empty
+            return true;
+          } else {
+            //dest is enemy
+            return false;
+          }
+        }
+      } else {
+        //moving in non-straight line
+        return false;
+      }
+
+      break;
+
+    case getChessType().Horse:
+      if ((xDiff === 1 && yDiff === 2) || (xDiff === 2 && yDiff === 1)) {
+        if (xDiff === 2) {
+          //check x
+          const dir = Math.sign(dest.x - src.x);
+
+          const checkSpotY = src.y;
+          const checkSpotX = src.x + dir;
+
+          const checkSpot = squares[checkSpotY][checkSpotX];
+
+          if (checkSpot == null) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          //check y
+          const dir = Math.sign(dest.y - src.y);
+
+          const checkSpotY = src.y + dir;
+          const checkSpotX = src.x;
+
+          const checkSpot = squares[checkSpotY][checkSpotX];
+
+          if (checkSpot == null) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
+      break;
+
     case getChessType().Chariot:
       if (xDiff === 0 || yDiff === 0) {
         if (hasPieceBetween(src, dest, squares)) {
