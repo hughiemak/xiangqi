@@ -11,7 +11,8 @@ export default class ChessHolder extends React.Component {
 
     this.state = {
       player: this.props.player,
-      holderContent: this.props.holderContent
+      holderContent: this.props.holderContent,
+      selected: this.props.selected
     };
   }
 
@@ -26,6 +27,10 @@ export default class ChessHolder extends React.Component {
     if (this.props.holderContent !== prevProps.holderContent) {
       //   console.log("ChessHolder componentDidUpdate");
       this.setState({ holderContent: this.props.holderContent });
+    }
+
+    if (this.props.selected !== prevProps.selected) {
+      this.setState({ selected: this.props.selected });
     }
   }
 
@@ -81,7 +86,7 @@ export default class ChessHolder extends React.Component {
     this.onPieceSelected(sqData);
   };
 
-  generateRow(y) {
+  generateRow(y, selected) {
     const row = [];
     for (let x = 0; x <= 7; x++) {
       const yS = y.toString();
@@ -89,6 +94,11 @@ export default class ChessHolder extends React.Component {
       const key = yS + xS;
       const square = { x: x, y: y };
       //   console.log(square);
+
+      var highlight = false;
+      if (selected != null && selected.y == y && selected.x == x) {
+        highlight = true;
+      }
       row.push(
         <ChessSquare
           key={key}
@@ -97,14 +107,15 @@ export default class ChessHolder extends React.Component {
           onSelect={this.onSelect}
           holderContent={this.state.holderContent}
           player={this.state.player}
+          highlight={highlight}
         />
       );
     }
     return row;
   }
 
-  generateRows() {
-    return [this.generateRow(0), this.generateRow(1)];
+  generateRows(selected) {
+    return [this.generateRow(0, selected), this.generateRow(1, selected)];
   }
 
   render() {
@@ -112,9 +123,11 @@ export default class ChessHolder extends React.Component {
     return (
       <div className="chess-parent-container">
         <div className="chess-container">
-          <div className="board-row">{this.generateRows()}</div>
+          <div className="board-row">
+            {this.generateRows(this.state.selected)}
+          </div>
         </div>
-        <button onClick={this.test}>Test</button>
+        {/* <button onClick={this.test}>Test</button> */}
       </div>
     );
   }

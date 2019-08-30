@@ -14,12 +14,14 @@ import ChessHolder from "./ChessHolder.js";
 import getOutcomeAfterAddPiece from "../helpers/getOutcomeAfterAddPiece";
 import getChessType from "../helpers/getChessType";
 import getChess from "../helpers/getChess";
+import getOutcomeAfterRemovePiece from "../helpers/getOutcomeAfterRemovePiece";
+import getDefaultHolderContent from "../helpers/getDefaultHolderContent";
 
 export default class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      squares: initChessBoard(),
+      squares: initChessBoard(true),
       isSelectingChess: true, //false when placing chess to destination
       selectedSquare: null, //a square
       unselect: null, //a coordinate
@@ -27,10 +29,34 @@ export default class Game extends React.Component {
       turn: getPlayers().Red,
       selectedHolderSqData: null,
       // holderContent: this.holderContent
-      redHolderContent: this.redHolderContent,
-      blackHolderContent: this.blackHolderContent
+      redHolderContent: [],
+      blackHolderContent: []
     };
   }
+
+  enterAutoInitMode = () => {
+    const squares = initChessBoard(true);
+    const redHolderContent = [];
+    const blackHolderContent = [];
+
+    this.setState({
+      squares: squares,
+      redHolderContent: redHolderContent,
+      blackHolderContent: blackHolderContent
+    });
+  };
+
+  enterCustomMode = () => {
+    const squares = initChessBoard(false);
+    this.redHolderContent = getDefaultHolderContent().Red;
+    this.blackHolderContent = getDefaultHolderContent().Black;
+
+    this.setState({
+      squares: squares,
+      redHolderContent: this.redHolderContent,
+      blackHolderContent: this.blackHolderContent
+    });
+  };
 
   toggleTurn() {
     const turn = this.state.turn;
@@ -86,9 +112,14 @@ export default class Game extends React.Component {
 
     const turn = this.state.turn;
 
+    console.log(
+      "this.state.selectedHolderSqData: " + this.state.selectedHolderSqData
+    );
+    console.log("!this.squreHavePiece(sq): " + !this.squreHavePiece(sq));
+
     if (this.state.selectedHolderSqData != null && !this.squreHavePiece(sq)) {
       //place piece
-
+      console.log("Place piece");
       const outcome = getOutcomeAfterAddPiece(
         this.state.selectedHolderSqData,
         coord,
@@ -179,6 +210,8 @@ export default class Game extends React.Component {
               const destPiece = getPieceByCoord(dest, squares);
               if (destPiece != null) {
                 // TODO: store fallen piece
+                const holderPosition = destPiece.holderPosition;
+                const player = destPiece.player;
               }
 
               this.setState(
@@ -271,7 +304,81 @@ export default class Game extends React.Component {
     // console.log(
     //   "Game onChessHolderPieceSelected piece: " + JSON.stringify(piece)
     // );
-    this.setState({ selectedHolderSqData: selectedHolderSqData });
+
+    // const player = selectedHolderSqData.player;
+
+    // const selectedCoord = this.state.select;
+
+    // if (selectedCoord != null) {
+    //   const selectedPiece = getPieceByCoord(selectedCoord, this.state.squares);
+    //   if (
+    //     selectedHolderSqData.holderContent[selectedHolderSqData.square.y][
+    //       selectedHolderSqData.square.x
+    //     ] != null ||
+    //     player != selectedPiece.player
+    //   ) {
+    //     //holder sq has piece or is opposite player holder
+    //     //select it
+    //     this.setState({ selectedHolderSqData: selectedHolderSqData });
+    //   } else {
+    //     // holder sq is empty
+    //     // put piece from board to holder
+    //     const holderSq = selectedHolderSqData.square;
+    //     const outcome = getOutcomeAfterRemovePiece(
+    //       selectedCoord,
+    //       this.state.squares
+    //     );
+
+    //     if (player == getPlayers().Black) {
+    //       this.blackHolderContent[holderSq.y][holderSq.x] = selectedPiece;
+    //       this.setState({
+    //         squares: outcome,
+    //         blackHolderContent: this.blackHolderContent,
+    //         isSelectingChess: true
+    //       });
+    //     } else {
+    //       this.redHolderContent[holderSq.y][holderSq.x] = selectedPiece;
+    //       this.setState({
+    //         squares: outcome,
+    //         redHolderContent: this.redHolderContent,
+    //         isSelectingChess: true
+    //       });
+    //     }
+    //   }
+    // } else {
+    //pick the piece in holder
+    var holderSqHasPiece;
+
+    if (
+      selectedHolderSqData.holderContent.length == 0 ||
+      selectedHolderSqData.holderContent.length == null
+    ) {
+      holderSqHasPiece = false;
+    } else if (
+      selectedHolderSqData.holderContent[selectedHolderSqData.square.y][
+        selectedHolderSqData.square.x
+      ] == null
+    ) {
+      holderSqHasPiece = false;
+    } else {
+      holderSqHasPiece = true;
+    }
+
+    //   if (selectedHolderSqData.holderContent.length == 0 || selectedHolderSqData.holderContent.length == null){
+    //     c
+    //   }else if (selectedHolderSqData.holderContent[selectedHolderSqData.square.y][
+    //     selectedHolderSqData.square.x
+    //   ] == null){
+    //   holderSqHasPiece = false
+    // }else{
+    //     holderSqHasPiece = true
+    //   }
+
+    if (holderSqHasPiece) {
+      this.setState({ selectedHolderSqData: selectedHolderSqData });
+    }
+
+    // }
   };
 
   removePieceFromHolder(selectedHolderSqData) {
@@ -279,14 +386,40 @@ export default class Game extends React.Component {
     const y = selectedHolderSqData.square.y;
   }
 
+  onAutoStartBtnClicked = () => {
+    this.enterAutoInitMode();
+  };
+
+  onCustomizeBtnClicked = () => {
+    this.enterCustomMode();
+  };
+
   render() {
     // console.log("this.state.squares: " + this.state.squares);
     return (
       <div>
+        <div className="btns-container">
+          {/* <div className="center"> */}
+          <button className="btn" onClick={this.onAutoStartBtnClicked}>
+            Auto Start
+          </button>
+          <button className="btn" onClick={this.onCustomizeBtnClicked}>
+            Customize
+          </button>
+          {/* </div> */}
+        </div>
+
         <ChessHolder
           onPieceSelected={this.onChessHolderPieceSelected}
           player={getPlayers().Black}
           holderContent={this.state.blackHolderContent}
+          selected={
+            this.state.selectedHolderSqData != null
+              ? this.state.selectedHolderSqData.player == getPlayers().Black
+                ? this.state.selectedHolderSqData.square
+                : null
+              : null
+          }
         />
         <div className="game">
           <DisplayBoard />
@@ -303,6 +436,13 @@ export default class Game extends React.Component {
           onPieceSelected={this.onChessHolderPieceSelected}
           player={getPlayers().Red}
           holderContent={this.state.redHolderContent}
+          selected={
+            this.state.selectedHolderSqData != null
+              ? this.state.selectedHolderSqData.player == getPlayers().Red
+                ? this.state.selectedHolderSqData.square
+                : null
+              : null
+          }
         />
       </div>
     );
@@ -355,51 +495,9 @@ export default class Game extends React.Component {
   //   ]
   // };
 
-  blackHolderContent = [
-    [
-      getChess(getChessType().Chariot, getPlayers().Black),
-      getChess(getChessType().Horse, getPlayers().Black),
-      getChess(getChessType().Cannon, getPlayers().Black),
-      getChess(getChessType().Elephant, getPlayers().Black),
-      getChess(getChessType().Advisor, getPlayers().Black),
-      getChess(getChessType().King, getPlayers().Black),
-      getChess(getChessType().Advisor, getPlayers().Black),
-      getChess(getChessType().Elephant, getPlayers().Black)
-    ],
-    [
-      getChess(getChessType().Chariot, getPlayers().Black),
-      getChess(getChessType().Horse, getPlayers().Black),
-      getChess(getChessType().Cannon, getPlayers().Black),
-      getChess(getChessType().Soldier, getPlayers().Black),
-      getChess(getChessType().Soldier, getPlayers().Black),
-      getChess(getChessType().Soldier, getPlayers().Black),
-      getChess(getChessType().Soldier, getPlayers().Black),
-      getChess(getChessType().Soldier, getPlayers().Black)
-    ]
-  ];
+  blackHolderContent = getDefaultHolderContent().Black;
 
-  redHolderContent = [
-    [
-      getChess(getChessType().Chariot, getPlayers().Red),
-      getChess(getChessType().Horse, getPlayers().Red),
-      getChess(getChessType().Cannon, getPlayers().Red),
-      getChess(getChessType().Soldier, getPlayers().Red),
-      getChess(getChessType().Soldier, getPlayers().Red),
-      getChess(getChessType().Soldier, getPlayers().Red),
-      getChess(getChessType().Soldier, getPlayers().Red),
-      getChess(getChessType().Soldier, getPlayers().Red)
-    ],
-    [
-      getChess(getChessType().Chariot, getPlayers().Red),
-      getChess(getChessType().Horse, getPlayers().Red),
-      getChess(getChessType().Cannon, getPlayers().Red),
-      getChess(getChessType().Elephant, getPlayers().Red),
-      getChess(getChessType().Advisor, getPlayers().Red),
-      getChess(getChessType().King, getPlayers().Red),
-      getChess(getChessType().Advisor, getPlayers().Red),
-      getChess(getChessType().Elephant, getPlayers().Red)
-    ]
-  ];
+  redHolderContent = getDefaultHolderContent().Red;
 
   addPieceToBoard(holderSqData, outcome) {
     const sq = holderSqData.square;
@@ -411,17 +509,21 @@ export default class Game extends React.Component {
       this.setState({
         blackHolderContent: this.blackHolderContent,
         squares: outcome,
-        selectedHolderSqData: null
+        selectedHolderSqData: null,
+        isSelectingChess: true
       });
     } else {
       this.redHolderContent[sq.y][sq.x] = null;
       this.setState({
         redHolderContent: this.redHolderContent,
         squares: outcome,
-        selectedHolderSqData: null
+        selectedHolderSqData: null,
+        isSelectingChess: true
       });
     }
   }
+
+  removePieceFromBoardToHolder() {}
 
   // removePieceFromHolder(holderSqData) {
   //   const sq = holderSqData.square;

@@ -237,3 +237,16 @@ body {
 
   float: left;
 }
+
+.btns-container {
+  width: 279px;
+  text-align: center;
+}
+
+.btn {
+  /* margin: auto; */
+}
+
+.center {
+  margin: auto;
+}

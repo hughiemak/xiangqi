@@ -61,7 +61,7 @@ export default class Sqaure extends React.Component {
         {/* {this.state.piece} */}
         <div
           className={
-            this.state.highlight
+            this.state.highlight && this.state.piece != null
               ? this.state.piece.player === getPlayers().Red
                 ? "highlight-piece-in-red"
                 : "highlight-piece"

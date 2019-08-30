@@ -18,6 +18,7 @@ export default class ChessSquare extends React.Component {
       id: this.props.id,
       //   square: this.props.square,
       //   piece: this.props.piece,
+      highlight: this.props.highlight,
       data: {
         square: this.props.square,
         // piece: this.props.holderContent[this.props.square.y][
@@ -40,6 +41,19 @@ export default class ChessSquare extends React.Component {
         data: { ...this.state.data, holderContent: this.props.holderContent }
       });
     }
+
+    if (this.props.highlight !== prevProps.highlight) {
+      this.setState({
+        highlight: this.props.highlight
+      });
+    }
+  }
+
+  sqHasPiece() {
+    const sq = this.state.data.square;
+    const holderContent = this.state.data.holderContent;
+    const piece = holderContent[sq.y][sq.x];
+    return piece != null;
   }
 
   handleClick = () => {
@@ -53,7 +67,10 @@ export default class ChessSquare extends React.Component {
 
   render() {
     var piece;
-    if (this.state.data.holderContent != null) {
+    if (
+      this.state.data.holderContent != null &&
+      this.state.data.holderContent.length != 0
+    ) {
       piece = this.state.data.holderContent[this.state.data.square.y][
         this.state.data.square.x
       ];
@@ -71,7 +88,17 @@ export default class ChessSquare extends React.Component {
     // );
     return (
       <div className="chess-square" onClick={this.handleClick}>
-        {getComponentByChessType(piece)}
+        <div
+          className={
+            this.state.highlight && piece != null
+              ? piece.player === getPlayers().Red
+                ? "highlight-piece-in-red"
+                : "highlight-piece"
+              : "unhighlight-square"
+          }
+        >
+          {getComponentByChessType(piece)}
+        </div>
       </div>
     );
   }
