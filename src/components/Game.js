@@ -16,6 +16,7 @@ import getChessType from "../helpers/getChessType";
 import getChess from "../helpers/getChess";
 import getOutcomeAfterRemovePiece from "../helpers/getOutcomeAfterRemovePiece";
 import getDefaultHolderContent from "../helpers/getDefaultHolderContent";
+import getEmptyHolderContent from "../helpers/getEmptyHolderContent";
 
 export default class Game extends React.Component {
   constructor() {
@@ -29,20 +30,25 @@ export default class Game extends React.Component {
       turn: getPlayers().Red,
       selectedHolderSqData: null,
       // holderContent: this.holderContent
-      redHolderContent: [],
-      blackHolderContent: []
+      redHolderContent: getEmptyHolderContent(),
+      blackHolderContent: getEmptyHolderContent()
     };
+  }
+
+  componentDidMount() {
+    this.enterAutoInitMode();
   }
 
   enterAutoInitMode = () => {
     const squares = initChessBoard(true);
-    const redHolderContent = [];
-    const blackHolderContent = [];
+    this.redHolderContent = getEmptyHolderContent();
+    this.blackHolderContent = getEmptyHolderContent();
 
     this.setState({
       squares: squares,
-      redHolderContent: redHolderContent,
-      blackHolderContent: blackHolderContent
+      redHolderContent: this.redHolderContent,
+      blackHolderContent: this.blackHolderContent,
+      turn: getPlayers().Red
     });
   };
 
@@ -54,7 +60,8 @@ export default class Game extends React.Component {
     this.setState({
       squares: squares,
       redHolderContent: this.redHolderContent,
-      blackHolderContent: this.blackHolderContent
+      blackHolderContent: this.blackHolderContent,
+      turn: getPlayers().Red
     });
   };
 
@@ -212,6 +219,23 @@ export default class Game extends React.Component {
                 // TODO: store fallen piece
                 const holderPosition = destPiece.holderPosition;
                 const player = destPiece.player;
+
+                if (player == getPlayers().Black) {
+                  // modify blackholdercontent
+                  this.blackHolderContent[holderPosition.y][
+                    holderPosition.x
+                  ] = destPiece;
+
+                  this.setState({
+                    blackHolderContent: this.blackHolderContent
+                  });
+                } else {
+                  this.redHolderContent[holderPosition.y][
+                    holderPosition.x
+                  ] = destPiece;
+
+                  this.setState({ redHolderContent: this.redHolderContent });
+                }
               }
 
               this.setState(
