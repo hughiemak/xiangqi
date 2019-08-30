@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "19066c319c007a43ad914655e2bdb96e",
+    "revision": "19b37fc7ea49094034cb528534c46cf8",
     "url": "/xiangqi/index.html"
   },
   {
-    "revision": "43d00694bcbf57f45842",
-    "url": "/xiangqi/static/css/main.f99601e0.chunk.css"
+    "revision": "1b16665ebb715c9fb6b6",
+    "url": "/xiangqi/static/css/main.648e8d67.chunk.css"
   },
   {
-    "revision": "8fc900728f95b7e7db8c",
-    "url": "/xiangqi/static/js/2.521f76d6.chunk.js"
+    "revision": "1ce040fe9b89345b0c9b",
+    "url": "/xiangqi/static/js/2.3a3c4bcb.chunk.js"
   },
   {
-    "revision": "43d00694bcbf57f45842",
-    "url": "/xiangqi/static/js/main.a73bfa4e.chunk.js"
+    "revision": "1b16665ebb715c9fb6b6",
+    "url": "/xiangqi/static/js/main.e51ac427.chunk.js"
   },
   {
     "revision": "4ad3e204c51dabc89519",
