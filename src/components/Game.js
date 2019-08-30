@@ -11,7 +11,7 @@ import { thisTypeAnnotation } from "@babel/types";
 import getPlayers from "../helpers/getPlayers";
 import DisplayBoard from "./ui/Board";
 import ChessHolder from "./ChessHolder.js";
-import addPieceToBoard from "../helpers/addPieceToBoard";
+import getOutcomeAfterAddPiece from "../helpers/getOutcomeAfterAddPiece";
 import getChessType from "../helpers/getChessType";
 import getChess from "../helpers/getChess";
 
@@ -89,15 +89,17 @@ export default class Game extends React.Component {
     if (this.state.selectedHolderSqData != null && !this.squreHavePiece(sq)) {
       //place piece
 
-      const outcome = addPieceToBoard(
+      const outcome = getOutcomeAfterAddPiece(
         this.state.selectedHolderSqData,
         coord,
         squares
       );
 
-      this.removePieceFromHolder(this.state.selectedHolderSqData);
+      this.addPieceToBoard(this.state.selectedHolderSqData, outcome);
 
-      // this.setState({ squares: outcome, selectedHolderSqData: null })
+      // this.removePieceFromHolder(this.state.selectedHolderSqData);
+
+      // this.setState({ squares: outcome, selectedHolderSqData: null });
     } else {
       if (this.isSelectingChess()) {
         if (this.squreHavePiece(sq)) {
@@ -399,41 +401,71 @@ export default class Game extends React.Component {
     ]
   ];
 
-  removePieceFromHolder(holderSqData) {
+  addPieceToBoard(holderSqData, outcome) {
     const sq = holderSqData.square;
 
     const player = holderSqData.player;
 
-    console.log(
-      "Game removePieceFromHolder player: " +
-        player +
-        "sq: " +
-        JSON.stringify(sq)
-    );
-
-    // if (player == getPlayers().Black) {
-    //   this.holderContent.Black[sq.y][sq.x] = null;
-    //   console.log(
-    //     "Game removePieceFromHolder this.holderContent.Black[sq.y][sq.x]: " +
-    //       JSON.stringify(this.holderContent.Black[sq.y][sq.x])
-    //   );
-    // } else {
-    //   this.holderContent.Red[sq.y][sq.x] = null;
-    //   console.log(
-    //     "Game removePieceFromHolder this.holderContent.Red[sq.y][sq.x]: " +
-    //       JSON.stringify(this.holderContent.Red[sq.y][sq.x])
-    //   );
-    // }
-
-    // console.log(
-    //   "Game removePieceFromHolder holderContent: " +
-    //     JSON.stringify(this.holderContent)
-    // );
-
-    // var newHolderContent = JSON.parse(JSON.stringify(this.holderContent));
-
-    // this.setState({
-    //   holderContent: newHolderContent
-    // });
+    if (player == getPlayers().Black) {
+      this.blackHolderContent[sq.y][sq.x] = null;
+      this.setState({
+        blackHolderContent: this.blackHolderContent,
+        squares: outcome,
+        selectedHolderSqData: null
+      });
+    } else {
+      this.redHolderContent[sq.y][sq.x] = null;
+      this.setState({
+        redHolderContent: this.redHolderContent,
+        squares: outcome,
+        selectedHolderSqData: null
+      });
+    }
   }
+
+  // removePieceFromHolder(holderSqData) {
+  //   const sq = holderSqData.square;
+
+  //   const player = holderSqData.player;
+
+  //   console.log(
+  //     "Game removePieceFromHolder player: " +
+  //       player +
+  //       "sq: " +
+  //       JSON.stringify(sq)
+  //   );
+
+  //   if (player == getPlayers().Black) {
+  //     this.blackHolderContent[sq.y][sq.x] = null;
+  //     this.setState({
+  //       blackHolderContent: this.blackHolderContent
+  //     });
+  //   } else {
+  //     this.redHolderContent[sq.y][sq.x] = null;
+  //     this.setState({
+  //       redHolderContent: this.redHolderContent
+  //     });
+  //   }
+
+  //   // if (player == getPlayers().Black) {
+  //   //   this.holderContent.Black[sq.y][sq.x] = null;
+  //   //   console.log(
+  //   //     "Game removePieceFromHolder this.holderContent.Black[sq.y][sq.x]: " +
+  //   //       JSON.stringify(this.holderContent.Black[sq.y][sq.x])
+  //   //   );
+  //   // } else {
+  //   //   this.holderContent.Red[sq.y][sq.x] = null;
+  //   //   console.log(
+  //   //     "Game removePieceFromHolder this.holderContent.Red[sq.y][sq.x]: " +
+  //   //       JSON.stringify(this.holderContent.Red[sq.y][sq.x])
+  //   //   );
+  //   // }
+
+  //   // console.log(
+  //   //   "Game removePieceFromHolder holderContent: " +
+  //   //     JSON.stringify(this.holderContent)
+  //   // );
+
+  //   // var newHolderContent = JSON.parse(JSON.stringify(this.holderContent));
+  // }
 }

@@ -121,11 +121,22 @@ export default class ChessHolder extends React.Component {
 
   test = () => {
     // console.log("test");
-    // let copy = JSON.parse(JSON.stringify(this.state.holderContent));
-    // copy[0][0] = null;
+    if (this.state.holderContent != null) {
+      this.state.holderContent[0][0] = null;
 
-    this.setState({ holderContent: null });
+      //   let copy = JSON.parse(JSON.stringify(this.state.holderContent));
+      //   copy[0][0] = null;
+
+      this.setState({ holderContent: this.state.holderContent });
+    }
   };
+
+  removePieceAt(sq) {
+    let copy = JSON.parse(JSON.stringify(this.state.holderContent));
+    copy[sq.y][sq.x] = null;
+
+    this.setState({ holderContent: copy });
+  }
 
   onPieceSelected = sqData => {
     // console.log("ChessHolder onPieceSelected");
